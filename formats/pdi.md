@@ -15,7 +15,7 @@ A file with the `.pdi` extension represents a 1-bit bitmap image that has been c
 
 ## Image Header
 
-If the compression flag is set, there's an extra image header after the file header. Everything after this is zlib-compressed. 
+If the compression flag is set, this image header follows the file header. Everything after the image header is zlib-compressed. 
 
 | Offset | Type     | Detail |
 |:-------|:---------|:--------------------------------|
@@ -55,7 +55,7 @@ The `pdi`, [`.pdt`](formats/pdi.md) and [`.pft`](formats/pft.md) formats store p
 
 Cells contain at least one 1-bit bitmap for black/white color (`0` for black and `1` for white). If the transparency flag is set, this will be followed by an additional 1-bit bitmap for the image alpha (`0` for transparent and `1` for opaque).
 
-The number of bytes used by a cell bitmap will be equal to `stride * clip height`. The number of pixels in each row of the cell bitmap will be equal to `clip width`. Transparent edges are not stored, and must be added back to the cell based on the values given in the cell header.
+The number of bytes used by a cell bitmap will be equal to `stride * clip height`. The number of pixels in each row of the cell bitmap will be equal to `clip width`. Transparent edges are not stored, and must be added back to the cell based on the values given in the cell header. The stride is always a multiple of 4, ensuring that the data can be accessed with 32-bit reads.
 
 ![Transparent edges are removed from the image to reduce its size](https://github.com/jaames/playdate-reverse-engineering/blob/main/_images/bitmap-clip.png)
 
